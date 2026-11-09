@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript demo</title>
+<style>
+  body { font-family: sans-serif; margin: 20px; background: #f4f6f8; color: #222; }
+  h1 { color: #2b5d8a; }
+  .card { background: #fff; border: 1px solid #ccd3da; border-radius: 6px; padding: 12px 16px; margin: 0 0 14px 0; }
+  button { padding: 4px 12px; margin-right: 6px; }
+  button:hover { background: #d8e6f5; }
+  .big { font-size: 28px; font-weight: bold; color: #2b5d8a; }
+  li.done { text-decoration: line-through; color: #888; }
+  .hidden { display: none; }
+  #board span { display: inline-block; width: 34px; height: 34px; margin: 2px; background: #dde3ea; text-align: center;
+                font-size: 22px; line-height: 34px; }
+  #board span:hover { background: #c4d6ea; }
+</style>
+</head>
+<body>
+<h1>JavaScript in Petrichor</h1>
+<p id="intro">Everything below is driven by scripts running in the browser.</p>
+
+<div class="card">
+  <h3>Counter</h3>
+  <span id="count" class="big">0</span>
+  <p><button id="dec">-1</button><button id="inc">+1</button><button onclick="reset()">Reset</button></p>
+  <p id="saved"></p>
+</div>
+
+<div class="card">
+  <h3>To-do list</h3>
+  <form id="todo-form">
+    <input id="todo-text" placeholder="Something to do" size="30">
+    <button type="submit">Add</button>
+  </form>
+  <ul id="todos"></ul>
+  <p><label><input type="checkbox" id="hide-done"> Hide finished items</label></p>
+</div>
+
+<div class="card">
+  <h3>Clock</h3>
+  <p class="big" id="clock">--:--:--</p>
+</div>
+
+<div class="card">
+  <h3>Tic-tac-toe</h3>
+  <div id="board"></div>
+  <p id="status">X to move.</p>
+  <button id="newgame">New game</button>
+</div>
+
+<div class="card">
+  <h3>Language</h3>
+  <pre id="lang"></pre>
+</div>
+
+<script>
+  // ---- counter (remembered in localStorage) ----
+  let count = Number(localStorage.getItem("count") || 0);
+  const countEl = document.getElementById("count");
+  function show() {
+    countEl.textContent = count;
+    countEl.style.color = count < 0 ? "#b33" : "#2b5d8a";
+    localStorage.setItem("count", count);
+    document.querySelector("#saved").textContent = `Saved: ${count} (survives reloads)`;
+  }
+  document.getElementById("inc").addEventListener("click", () => { count++; show(); });
+  document.getElementById("dec").addEventListener("click", () => { count--; show(); });
+  function reset() { count = 0; show(); }
+  show();
+
+  // ---- to-do list ----
+  const todos = [];
+  const list = document.getElementById("todos");
+  function render() {
+    list.innerHTML = "";
+    const hide = document.getElementById("hide-done").checked;
+    todos.forEach((t, i) => {
+      if (hide && t.done) return;
+      const li = document.createElement("li");
+      li.textContent = t.text + " ";
+      if (t.done) li.classList.add("done");
+      li.addEventListener("click", () => { t.done = !t.done; render(); });
+      const del = document.createElement("button");
+      del.textContent = "x";
+      del.onclick = (e) => { e.stopPropagation(); todos.splice(i, 1); render(); };
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+  document.getElementById("todo-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const input = document.getElementById("todo-text");
+    const text = input.value.trim();
+    if (!text) return;
+    todos.push({ text, done: false });
+    input.value = "";
+    render();
+  });
+  document.getElementById("hide-done").addEventListener("change", render);
+  ["Try clicking an item", "Add your own above"].forEach(t => todos.push({ text: t, done: false }));
+  render();
+
+  // ---- clock ----
+  function tick() {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, "0");
+    document.getElementById("clock").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  // ---- tic-tac-toe ----
+  class Game {
+    constructor(el) { this.el = el; this.reset(); }
+    reset() {
+      this.cells = Array(9).fill("");
+      this.turn = "X";
+      this.over = false;
+      this.draw();
+      document.getElementById("status").textContent = "X to move.";
+    }
+    winner() {
+      const L = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+      for (const [a, b, c] of L.map(x => x)) { }
+      for (const l of L) {
+        const [a, b, c] = [l[0], l[1], l[2]];
+        if (this.cells[a] && this.cells[a] === this.cells[b] && this.cells[a] === this.cells[c]) return this.cells[a];
+      }
+      return this.cells.every(c => c) ? "draw" : null;
+    }
+    play(i) {
+      if (this.over || this.cells[i]) return;
+      this.cells[i] = this.turn;
+      const w = this.winner();
+      const status = document.getElementById("status");
+      if (w) { this.over = true; status.textContent = w === "draw" ? "A draw." : `${w} wins!`; }
+      else { this.turn = this.turn === "X" ? "O" : "X"; status.textContent = `${this.turn} to move.`; }
+      this.draw();
+    }
+    draw() {
+      this.el.innerHTML = "";
+      this.cells.forEach((c, i) => {
+        const s = document.createElement("span");
+        s.textContent = c || " ";
+        s.addEventListener("click", () => this.play(i));
+        this.el.appendChild(s);
+        if (i % 3 === 2) this.el.appendChild(document.createElement("br"));
+      });
+    }
+  }
+  const game = new Game(document.getElementById("board"));
+  document.getElementById("newgame").onclick = () => game.reset();
+
+  // ---- a little of everything ----
+  const facts = [];
+  const sq = [1, 2, 3, 4].map(n => n * n);
+  facts.push("squares: " + sq.join(", ") + "  sum: " + sq.reduce((a, b) => a + b, 0));
+  facts.push("JSON: " + JSON.stringify({ name: "Petrichor", tags: ["os", "rain"], pi: Math.round(Math.PI * 100) / 100 }));
+  const parsed = JSON.parse('{"a":[1,2,{"b":true}]}');
+  facts.push("parsed: a[2].b = " + parsed.a[2].b);
+  facts.push("closure counter: " + (() => { let n = 0; const next = () => ++n; next(); next(); return next(); })());
+  facts.push("typeof: " + [typeof 1, typeof "s", typeof {}, typeof null, typeof undefined, typeof (() => 1)].join(" "));
+  try { null.x; } catch (e) { facts.push("caught: " + e.name); }
+  const m = new Map([["rain", 3]]); m.set("sun", 1);
+  facts.push("Map keys: " + [...m.keys()].join(","));
+  facts.push("0.1 + 0.2 = " + (0.1 + 0.2) + "   toFixed: " + (2 / 3).toFixed(3));
+  document.getElementById("lang").textContent = facts.join("\n");
+  console.log("demo ready");
+</script>
+</body>
+</html>

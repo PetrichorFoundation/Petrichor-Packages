@@ -1,0 +1,1 @@
+-I@DIR@/netsurf/libhubbub/include -I@DIR@/netsurf/libparserutils/include -I@DIR@/netsurf/libcss/include -I@DIR@/netsurf/libwapcaplet/include -I@DIR@/netsurf/compat -D_ALIGNED=__attribute__((aligned))

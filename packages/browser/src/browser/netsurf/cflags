@@ -1,0 +1,1 @@
+-I@DIR@/compat -include @DIR@/compat/strings.h -DNDEBUG -DWITHOUT_ICONV_FILTER -D_ALIGNED=__attribute__((aligned)) -w

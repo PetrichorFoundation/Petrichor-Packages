@@ -1,0 +1,5 @@
+VERSION=1.5
+DEPS=""
+DESC="Web browser: HTML5 + CSS (NetSurf hubbub, libcss), TrueType fonts, images, JavaScript, HTTPS"
+CFLAGS="-msse2"
+LIBS="gfx"

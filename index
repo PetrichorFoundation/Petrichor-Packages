@@ -1,6 +1,7 @@
-calc	0.9	21832	008f2f781fbd0ef8d15a36ec992f6b316c7b1b1c804f55610f3ddc353b38d523	-	calc-0.9.ppk	Integer expression calculator
-cowsay	1.0	21808	a71163e867f50df24ea9e27f96ed895667908f28e5937af9a1aaadbddcf81bd4	-	cowsay-1.0.ppk	A talking cow (ASCII art)
-fortune	1.2	21825	e67385d5fea00b880299d235b7de59fcd9c69792a4dabb5fa9bd5442ffcef1e5	-	fortune-1.2.ppk	Print a random adage
-grapejuice	0.1	121674	7e95b4618f41acb4e2e3388577da5c49945f6c86940a970e0b509e078224af63	-	grapejuice-0.1.ppk	GrapeJuice: run simple 64-bit Windows console programs (.exe)
-hd	1.0	20856	086f8aa0fb11cfe7625e2da42febd88bd1595ead92f0bfe91a9e56da82497619	-	hd-1.0.ppk	Hex dump of a file
+browser	1.5	5485785	192311b9d16885ae382cc908b9709caf90d3981e3dd07bd605d853ce7b8e7864	-	browser-1.5.ppk	Web browser: HTML5 + CSS (NetSurf hubbub, libcss), TrueType fonts, images, JavaScript, HTTPS
+calc	0.9	28848	d3c84be6f1b9528d82aea5f6e9248a1b031ed12e4773ff39778dbea14b08e190	-	calc-0.9.ppk	Integer expression calculator
+cowsay	1.0	28824	d7aa7ca8755473a62f59531f1baae4422bd6dc50572ef57f3924f8ff292eb49f	-	cowsay-1.0.ppk	A talking cow (ASCII art)
+fortune	1.2	28849	846cfef2da28b3acc09ecce01a7485f3162b58f2d0aaae23694948a0348097cb	-	fortune-1.2.ppk	Print a random adage
+grapejuice	0.1	128698	122ba8bca9764b3bdaf862eac401a3df8768d8f036a0140776ff8323694eda96	-	grapejuice-0.1.ppk	GrapeJuice: run simple 64-bit Windows console programs (.exe)
+hd	1.0	27888	b02223b8fe61fd4039cbfa7e17a807e6bb9fc3676b9dee4b70c0e606b4605f79	-	hd-1.0.ppk	Hex dump of a file
 lolcow	1.0	267	d18d2898ab31894a0d13b8f9eb86b9baea8586cbafba24ebcf6f0b08f0fbd839	cowsay,fortune	lolcow-1.0.ppk	A cow that tells fortunes (a #! script)

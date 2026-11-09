@@ -1,0 +1,2 @@
+Just enough of a standard C library for NetSurf's libraries (libparserutils, libwapcaplet, libhubbub, libcss) to
+build on Petrichor.  The functions live in compat.c; everything else comes from Petrichor's user library (ulib).
